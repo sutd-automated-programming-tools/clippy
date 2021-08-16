@@ -1,0 +1,19 @@
+{
+  "name": "ClippyJupyter",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.jsx",
+  "scripts": {
+    "build": "npx babel main.jsx -d clippy"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/cli": "^7.13.14",
+    "@babel/core": "^7.13.14",
+    "@babel/plugin-transform-react-jsx": "^7.13.12",
+    "babel": "^6.23.0",
+    "styled-jsx": "^3.4.4"
+  }
+}

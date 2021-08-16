@@ -1,0 +1,4 @@
+USER root
+RUN mkdir /clippy && wget https://clara-jupyter.s3-ap-southeast-1.amazonaws.com/dist.zip --no-check-certificate && unzip dist.zip -d /clippy && rm dist.zip
+
+RUN jupyter nbextension install /clippy --system

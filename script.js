@@ -82,21 +82,11 @@ getResponse().then(console.log).catch()
 
 // html elements with js code
 
-document.getElementById('ins')
-<div id=​"ins">​</div>​
-div=document.getElementById('ins')
-<div id=​"ins">​</div>​
-div.createElement('form')
-VM417:1 Uncaught TypeError: div.createElement is not a function
-    at <anonymous>:1:5
-(anonymous) @ VM417:1
-document.createElement('form')
-<form>​</form>​
+div=document.getElementById('div')
 form=document.createElement('form')
-<form>​</form>​
+form.setAttribute('id','form')
 select=document.createElement('select')
-<select>​</select>​
-div.setAttribute('id','div')
-undefined
-div
-<div id=​"div">​</div>​
+select.setAttribute('id','select')
+select.style.setProperty("margin-left", "0.75em")
+select.setAttribute("class", "form-control select-xs")
+select.setAttribute('onchange',function(){})

@@ -13,6 +13,31 @@
 // }
 
 
+async function getFeedback(entryfnc,code,submission_folder,args){
+  const url='http://127.0.0.1/clara/feedback_snippet'
+  let data= {
+    "submission_folder": submission_folder,
+    "entryfnc": entryfnc,
+    "args": args,
+    "code": code
+  }
+  let params={
+    headers:{
+      'Content-Type': 'application/json'
+    },
+    body:JSON.stringify(feedData),
+    method:'PUT'
+  }
+  async function getResponse() {
+    let res = await fetch(url,params)
+    res = await res.json()
+    console.log(params)
+    res = await fetch(feedUrl,params )
+    res = await res.json()
+    return res
+  }
+}
+
 define(['base/js/namespace'], function (Jupyter) {
 
   async function load_ipython_extension() {
@@ -38,7 +63,6 @@ define(['base/js/namespace'], function (Jupyter) {
 
       //create option and add data
       json['functions'].forEach(element => {
-        console.log(element['entryfnc'])
 
         //create function option and add it to select tag in toolbaar
         option = document.createElement('option')

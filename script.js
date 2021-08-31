@@ -1,3 +1,4 @@
+const fetch = require("node-fetch");
 //list all methods defined in property chain
 
 // const getMethods = (obj) => {
@@ -11,20 +12,20 @@
 
 //   //gets property of Jupyter.notebook
 //   getMethods(Jupyter.notebook)
-console.log('moshi moshi')
+// console.log('moshi moshi')
 
 // clara login with fetch code
 
-let url='http://127.0.0.1/clara/login'
-let data={"username": "ismam",
-"password": "barelypass"}
-let formData = new FormData();
-formData.append("username", "ismam");
-formData.append("password", "barelypass")
-let params={
-    body:formData,
-    method:'POST'
-}
+// let url='http://127.0.0.1/clara/login'
+// let data={"username": "ismam",
+// "password": "barelypass"}
+// let formData = new FormData();
+// formData.append("username", "ismam");
+// formData.append("password", "barelypass")
+// let params={
+//     body:formData,
+//     method:'POST'
+// }
 
 
 let feedUrl='http://127.0.0.1/clara/feedback_snippet'
@@ -37,24 +38,26 @@ let feedData= {
 
 
 async function getResponse() {
-  let res = await fetch(url,params)
-  res = await res.json()
+  // let res = await fetch(url,params)
+  // res = await res.json()
   params={
         headers:{
           'Content-Type': 'application/json',
-          'Authorization':'Bearer '+res["access_token"]
+          // 'Authorization':'Bearer '+res["access_token"]
         },
         body:JSON.stringify(feedData),
         method:'PUT'
   }
-  console.log(params)
-  res = await fetch(feedUrl,params )
+  console.log('params ->',params)
+  res = await fetch(feedUrl,params)
+  console.log('res ->',res)
   res = await res.json()
   return res
 }
-params
+// params
 
-getResponse().then(console.log).catch()
+console.log(getResponse())
+getResponse().then(res =>console.log(res))
 
 
 // let token;
@@ -82,18 +85,18 @@ getResponse().then(console.log).catch()
 
 // html elements with js code
 
-div=document.getElementById('div')
-form=document.createElement('form')
-form.setAttribute('id','form')
-select=document.createElement('select')
-select.setAttribute('id','select')
-select.style.setProperty("margin-left", "0.75em")
-select.setAttribute("class", "form-control select-xs")
-select.setAttribute('onchange',function(){})
-option=document.createElement('option')
-option.setAttribute('id','option')
-text=document.createTextNode('option')
-option.append(text)
-select.append(option)
-form.append(select)
-div.append(form)
+// div=document.getElementById('div')
+// form=document.createElement('form')
+// form.setAttribute('id','form')
+// select=document.createElement('select')
+// select.setAttribute('id','select')
+// select.style.setProperty("margin-left", "0.75em")
+// select.setAttribute("class", "form-control select-xs")
+// select.setAttribute('onchange',function(){})
+// option=document.createElement('option')
+// option.setAttribute('id','option')
+// text=document.createTextNode('option')
+// option.append(text)
+// select.append(option)
+// form.append(select)
+// div.append(form)

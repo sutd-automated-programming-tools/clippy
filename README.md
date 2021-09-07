@@ -10,7 +10,7 @@ npm run build
 2. Build local image and run container (container does not need to be restarted on script edit)
 ```
 docker build . -t clippy-voca
-docker run -p 8888:8888 -v $(pwd)/clippy:/clippy:ro clippy-voca
+docker-compose up
 ```
 
 3. Open `http://localhost:8888`

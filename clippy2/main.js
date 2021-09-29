@@ -15,6 +15,7 @@
 
 async function getFeedback(entryfnc, code, submission_folder, args) {
   const url = 'http://127.0.0.1/clara/feedback_snippet'
+  // const url = 'http://54.169.68.173/clara/feedback_snippet'
   let data = {
     "submission_folder": submission_folder,
     "entryfnc": entryfnc,
@@ -46,18 +47,19 @@ function handleRequestFeedback(feedback, error) {
   if (error != undefined)
     alert("error: \n" + error)
   else {
-    new_cell = Jupyter.notebook.insert_cell_below('markdown')
-    new_cell.set_text("**feedback** <br>" + feedback)
+    new_cell = Jupyter.notebook.insert_cell_below('raw')
+    new_cell.set_text("Feedback\n\n\n" + feedback)
     new_cell.focus_cell();
     Jupyter.notebook.execute_cell()
   }
 }
 function checkFunctionName(name) {
-  re = new RegExp('def\\s+' + name)
+  re = new RegExp('def +' + name)
   if (re.test(code))
     return true
   else
     return false
+
 }
 function createButton() {
   button = document.createElement('button')
@@ -82,7 +84,7 @@ function createButton() {
   Jupyter.toolbar.element.append(button)
 }
 async function loadJson() {
-  response = await fetch(Jupyter.notebook.base_url + "nbextensions/clippy2/functions.json")
+  response = await fetch(Jupyter.notebook.base_url + "nbextensions/clippy/functions.json")
   return await response.json()
 }
 function addOptions(json) {

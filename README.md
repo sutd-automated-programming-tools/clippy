@@ -1,4 +1,4 @@
-[Jupyter frontend documentation]()
+[Jupyter frontend documentation](https://jupyter-notebook.readthedocs.io/en/stable/extending/frontend_extensions.html)
 
 To run:
 

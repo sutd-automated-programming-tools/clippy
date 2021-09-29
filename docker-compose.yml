@@ -1,0 +1,7 @@
+services:
+  clippy-voca:
+    ports:
+      - 8888:8888
+    volumes:
+      - ./clippy:/clippy:ro
+    image: clippy-voca

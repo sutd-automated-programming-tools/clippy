@@ -15,7 +15,7 @@
 
 async function getFeedback(entryfnc, code, submission_folder, args) {
   const url = 'http://127.0.0.1/clara/feedback_snippet'
-  // const url = 'http://54.169.68.173/clara/feedback_snippet'
+  // const url = 'http://18.141.189.44/clara/feedback_snippet'
   let data = {
     "submission_folder": submission_folder,
     "entryfnc": entryfnc,
@@ -68,11 +68,18 @@ function createButton() {
   button.onclick = async () => {
     //get data from cell
     code = Jupyter.notebook.get_selected_cell().get_text()
+    cells = Jupyter.notebook.get_cells()
+    // console.log(cells)
+    s = ''
+    cells.forEach(cell => {
+      if (cell.cell_type == 'code')
+        s += cell.get_text() + '\n'
+    })
     //get data from select and send http request
     option = document.getElementById(select.value)
     if (checkFunctionName(option.id)) {
       let feedback, error
-      await getFeedback(option.id, code, option.getAttribute("submission_folder"), option.getAttribute("args"))
+      await getFeedback(option.id, s, option.getAttribute("submission_folder"), option.getAttribute("args"))
         .then(res => feedback = res)
         .catch(e => error = e)
       //add feedback/error to cell below
@@ -84,7 +91,8 @@ function createButton() {
   Jupyter.toolbar.element.append(button)
 }
 async function loadJson() {
-  response = await fetch(Jupyter.notebook.base_url + "nbextensions/clippy/functions.json")
+  //be mindful of the path 
+  response = await fetch(Jupyter.notebook.base_url + "nbextensions/clippy2/functions.json")
   return await response.json()
 }
 function addOptions(json) {

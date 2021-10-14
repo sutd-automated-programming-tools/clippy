@@ -69,12 +69,15 @@ function createButton() {
     //get data from cell
     code = Jupyter.notebook.get_selected_cell().get_text()
     cells = Jupyter.notebook.get_cells()
+    index=Jupyter.notebook.get_selected_index()
     // console.log(cells)
     s = ''
-    cells.forEach(cell => {
-      if (cell.cell_type == 'code')
-        s += cell.get_text() + '\n'
-    })
+    for(i=0;i<cells.length;i++){
+      if(cells[i].cell_type=='code')
+        s += cells[i].get_text() + '\n'
+      if(i==index)
+        break
+    }
     //get data from select and send http request
     option = document.getElementById(select.value)
     if (checkFunctionName(option.id)) {

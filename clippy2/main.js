@@ -43,12 +43,15 @@ function createSelect() {
   Jupyter.toolbar.element.append(select);
   return select
 }
-function handleRequestFeedback(feedback, error) {
+function handleRequestFeedback(feedback, error,new_cell) {
   if (error != undefined)
     alert("error: \n" + error)
   else {
-    new_cell = Jupyter.notebook.insert_cell_below('raw')
-    new_cell.set_text("Feedback\n\n\n" + feedback)
+    // new_cell = Jupyter.notebook.insert_cell_below('raw')
+    if(feedback=='Error: struct\n\n')
+      new_cell.set_text("Feedback:\n\n\n" + 'we may not have enough information to give you feedback.')
+    else
+      new_cell.set_text("Feedback:\n\n\n" + feedback)
     new_cell.focus_cell();
     Jupyter.notebook.execute_cell()
   }
@@ -82,11 +85,13 @@ function createButton() {
     option = document.getElementById(select.value)
     if (checkFunctionName(option.id)) {
       let feedback, error
+      new_cell = Jupyter.notebook.insert_cell_below('raw')
+      new_cell.set_text("Fetching feedback!\n\n")
       await getFeedback(option.id, s, option.getAttribute("submission_folder"), option.getAttribute("args"))
         .then(res => feedback = res)
         .catch(e => error = e)
       //add feedback/error to cell below
-      handleRequestFeedback(feedback, error)
+      handleRequestFeedback(feedback, error,new_cell)
     }
     else
       alert('code cell does not have function name.')

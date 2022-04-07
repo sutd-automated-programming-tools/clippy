@@ -12,7 +12,9 @@
 //   method: 'POST'
 // }
 
+hint_text=''
 
+// fetches feedback by calling clara api 
 async function getFeedback(entryfnc, code, submission_folder, args) {
   const url = 'http://127.0.0.1/clara/feedback_snippet'
   // const url = 'http://18.141.189.44/clara/feedback_snippet'
@@ -35,6 +37,8 @@ async function getFeedback(entryfnc, code, submission_folder, args) {
   return res
   //can encapsulate with a try  catch block but the calling function already has one
 }
+
+// creates a dropdown element for jupyter notebook
 function createSelect() {
   select = document.createElement('select')
   select.setAttribute('id', 'select')
@@ -43,6 +47,8 @@ function createSelect() {
   Jupyter.toolbar.element.append(select);
   return select
 }
+
+// processes and modifies feedback messages to remove unwanted information for student 
 function handleRequestFeedback(feedback, error,new_cell) {
   if (error != undefined)
     alert("error: \n" + error)
@@ -54,8 +60,11 @@ function handleRequestFeedback(feedback, error,new_cell) {
       new_cell.set_text("Feedback:\n\n\n" + feedback)
     new_cell.focus_cell();
     Jupyter.notebook.execute_cell()
+    hint_text=feedback
   }
 }
+
+// checks function from the selected cell is the same as function name selected from dropdown
 function checkFunctionName(name) {
   re = new RegExp('def +' + name)
   if (re.test(code))
@@ -64,6 +73,24 @@ function checkFunctionName(name) {
     return false
 
 }
+
+// button to add next hint
+function createNextHintButton() {
+  button2 = document.createElement('button')
+  button2.setAttribute('id', 'hint')
+  button2.innerHTML = 'Next Hint!'
+  button2.style.visibility='hidden'
+  button2.onclick=() =>{
+    new_cell = Jupyter.notebook.insert_cell_below('raw')
+    new_cell.set_text("Feedback:\n\n\n" + hint_text)
+    new_cell.focus_cell();
+    hint=''
+    button2.style.visibility='hidden'
+  }
+  Jupyter.toolbar.element.append(button2)
+}
+
+// creates 'get help' button 
 function createButton() {
   button = document.createElement('button')
   button.setAttribute('id', 'button')
@@ -75,12 +102,13 @@ function createButton() {
     index=Jupyter.notebook.get_selected_index()
     // console.log(cells)
     s = ''
-    for(i=0;i<cells.length;i++){
-      if(cells[i].cell_type=='code')
-        s += cells[i].get_text() + '\n'
-      if(i==index)
-        break
-    }
+    // for(i=0;i<cells.length;i++){
+    //   if(cells[i].cell_type=='code')
+    //     s += cells[i].get_text() + '\n'
+    //   if(i==index)
+    //     break
+    // }
+    s+=cells[index].get_text()+'\n'
     //get data from select and send http request
     option = document.getElementById(select.value)
     if (checkFunctionName(option.id)) {
@@ -92,17 +120,22 @@ function createButton() {
         .catch(e => error = e)
       //add feedback/error to cell below
       handleRequestFeedback(feedback, error,new_cell)
+      hint=document.getElementById('hint')
+      hint.style.visibility='visible'
     }
     else
       alert('code cell does not have function name.')
   }
   Jupyter.toolbar.element.append(button)
 }
+// load json file of functions
 async function loadJson() {
   //be mindful of the path 
-  response = await fetch(Jupyter.notebook.base_url + "nbextensions/clippy2/functions.json")
+  response = await fetch(Jupyter.notebook.base_url + "nbextensions/clippy2/exp.json")
   return await response.json()
 }
+
+// add options to the dropdowns
 function addOptions(json) {
   json['functions'].forEach(element => {
 
@@ -119,6 +152,8 @@ function addOptions(json) {
     select.append(option)
   });
 }
+
+// main script
 define(['base/js/namespace'], function (Jupyter) {
 
   async function load_ipython_extension() {
@@ -131,6 +166,8 @@ define(['base/js/namespace'], function (Jupyter) {
       //create add select element to the toolbar
       select = createSelect()
 
+      //create hint button
+      // createNextHintButton()
       //create submit button and add to toolbar, get value from select and make http request and then add cell for the result
       createButton()
 

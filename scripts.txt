@@ -1,0 +1,2 @@
+files.sh creates new folder with files copied from test folder for experiments with students
+clippy.sh installs clippy2 extension in jupyter notebook locally

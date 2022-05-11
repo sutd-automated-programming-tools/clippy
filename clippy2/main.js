@@ -131,7 +131,7 @@ function createButton() {
 // load json file of functions
 async function loadJson() {
   //be mindful of the path 
-  response = await fetch(Jupyter.notebook.base_url + "nbextensions/clippy2/exp.json")
+  response = await fetch(Jupyter.notebook.base_url + "nbextensions/clippy2/functions.json")
   return await response.json()
 }
 

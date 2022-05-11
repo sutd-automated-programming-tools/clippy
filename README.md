@@ -11,7 +11,7 @@ git clone https://github.com/sutd-automated-programming-tools/clippy.git
 ```
 
 
-2. Build local image and run container (container does not need to be restarted on script edit)
+2. Make sure to have docker installed to build local image and run container (container does not need to be restarted on script edit)
 ```
 docker build . -t clippy-voca
 docker compose up

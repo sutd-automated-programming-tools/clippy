@@ -2,6 +2,8 @@ services:
   clippy-voca:
     ports:
       - 8888:8888
+    environment:
+      - DOCKER_STACKS_JUPYTER_CMD=notebook 
     volumes:
-      - ./clippy2:/clippy:ro
+      - ./clippy:/clippy:ro
     image: clippy-voca
